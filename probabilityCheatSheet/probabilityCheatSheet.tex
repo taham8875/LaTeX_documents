@@ -1,0 +1,704 @@
+\documentclass[a4paper]{article}
+\usepackage{amssymb,amsmath,amsthm,amsfonts}
+\usepackage{mathtools}
+\newcommand\Myperm[2][^n]{\prescript{#1\mkern-2.5mu}{}P_{#2}}
+\newcommand\Mycomb[2][^n]{\prescript{#1\mkern-0.5mu}{}C_{#2}}
+\usepackage{tabu}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+
+\usepackage{multicol,multirow}
+\usepackage{calc}
+\usepackage{enumerate,float,graphics,graphicx}
+\usepackage{ifthen}
+\usepackage{setspace}
+\usepackage{breqn}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{subfig}
+\usepackage[landscape]{geometry}
+\usepackage[colorlinks=true,citecolor=blue,linkcolor=blue]{hyperref}
+
+
+\newcommand*\pp{\mathbb{P}}
+
+
+
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+	{\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+		{\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+		{\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+	}
+
+\pagestyle{empty}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+%\setcounter{secnumdepth}{0}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+% -----------------------------------------------------------------------
+
+
+\makeatletter
+\newcommand{\globalcolor}[1]{%
+  \color{#1}\global\let\default@color\current@color
+}
+
+
+
+\title{Circuits-2 cheat sheet}
+%\doublespacing
+\begin{document}
+
+\raggedright
+\footnotesize
+
+\begin{center}
+     \Large{\textbf{EMP 214 - Probability cheat sheet\footnote{ \textcolor{darkgray}{Taha Ahmed}}}} \\
+\end{center}
+\begin{multicols}{3}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+
+
+\section{Prerequisites}
+\begin{align*}
+& 1+a+a^2+a^3+\cdots = \frac{1}{1-a}\\
+& a+a^2+a^3+a^4+\cdots =\\
+& a(1+a+a^2+a^3+\cdots) = \frac{a}{1-a}\\
+& 1+2a+3a^2+4a^3+\cdots = \frac{1}{(1-a)^2}
+\end{align*}
+
+\section{Axioms of Probability}
+\begin{itemize}
+\item Non negativity : ensures that probability is never negative. $\displaystyle \mathbb{P}[A] \geq 0$
+\item Normalization :  ensures that probability is never greater than 1.\\ $\displaystyle \mathbb{P}[\Omega] = 1$
+\item Additivity : allows us to add probabilities when two events do not
+overlap. $$\displaystyle \mathbb{P}\left[\bigcup_{i=1}^\infty A_i\right] = \sum_{i=1}^\infty \mathbb{P}[A_i]$$
+\end{itemize}
+
+\subsection{Unions of Two Non-Disjoint Sets}
+$$ \mathbb{P}[A\cup B] = \mathbb{P}[A] + \mathbb{P}[B] - \mathbb{P}[A\cap B] $$
+
+\section{Contional probability}
+
+
+
+
+$$ \mathbb{P}[A|B] = \frac{\mathbb{P}[A\cap B]}{\mathbb{P}[B]}  $$
+
+\begin{itemize}
+\item Independence : Two events A and B are independent if :
+\begin{align*}
+ \mathbb{P}[A|B] &=  \mathbb{P}[A] \\
+\text{or} \qquad \mathbb{P}[A\cap B] &=  \mathbb{P}[A]\mathbb{P}[B]  
+\end{align*}
+\begin{figure}[H] 
+	\centering
+	\includegraphics[width = 0.22\textwidth]{meme}
+%	\caption{}
+	\label{fig:1}
+\end{figure}
+
+\item Note:
+$$\text{Disjoint}  \nLeftrightarrow \text{Independent}$$
+
+If A and B are disjoint, then $A \cap B = \phi$. This only implies that $\mathbb{P}[ A \cap B] = 0$.
+
+\item Law of Total Probability :
+
+$$ \mathbb{P}[A] = \sum_{i=1}^n \mathbb{P}[A|B_i] \mathbb{P}[B_i] $$
+
+\item Bayes' rule 
+$$ \mathbb{P}[A|B] = \frac{\mathbb{P}[B|A]\mathbb{P}[A]}{\mathbb{P}[B]}  $$
+
+\end{itemize}
+
+\section{Series and Parallel Circuits}
+
+\begin{itemize}
+
+
+\item Series devices:
+\begin{dgroup*}
+  \begin{dmath*}
+$$\mathbb{P}[\text{Circuit \textbf{operates}}] = \mathbb{P}[\text{device 1 \textbf{operates}}] \times \mathbb{P}[\text{device 2 \textbf{operates}}] \times \cdots \times \mathbb{P}[\text{device n \textbf{operates}}] $$
+  \end{dmath*}
+\end{dgroup*}
+
+\item Parallel devices:
+\begin{dgroup*}
+  \begin{dmath*}
+$$\mathbb{P}[\text{Circuit \textbf{fails}}] = \mathbb{P}[\text{device 1 \textbf{fails}}] \times \mathbb{P}[\text{device 2 \textbf{fails}}] \times \cdots  \mathbb{P}[\text{device n \textbf{fails}}] $$
+  \end{dmath*}
+\end{dgroup*}
+\item Remember :  $$\mathbb{P}[\text{failure}] = 1 - \mathbb{P}[\text{success}]$$
+\end{itemize}
+
+
+\section{Techniques of Counting}
+\begin{itemize}
+\item Arranging $n$ items in $n$ places : number of ways $$n!$$
+\item Permutations : 
+$$ \Myperm{k} = \frac{n!}{(n-k)!} $$
+
+\item Combinations : 
+$$ \Mycomb{k} = \frac{n!}{k!(n-k)!} = \frac{\Myperm{k}}{k!} $$
+\end{itemize}
+\setlength{\extrarowheight}{10pt}
+
+
+
+\begin{tabu} to 0.3\textwidth {@{}| l ||X[c]|X[C]|X[C]| @{}}
+\hline 
+
+ & order & no order \\ 
+\hline
+\hline 
+replacement & $$n^r$$ & $$\Mycomb[n-r+1]{r}$$ \\ 
+\hline 
+no replacement & $$\Myperm{r}$$ & $$\Mycomb{r}$$ \\ 
+\hline 
+\end{tabu}
+
+%\begin{tabu} to \textwidth {@{} l *5{X[c]}@{}}
+%1 & 2 & 3 & 4 & 5 & 6\\
+%\end{tabu}
+
+\section{Discrete Random Variables}
+\begin{itemize}
+\item What are random variables?\\
+Random variables are mappings from events to numbers.
+\item  probability mass function (PMF) of a random variable $X$ is a function which specifies the probability of obtaining a number $x$. 
+$$p_X(x) = \mathbb{P}[X=x]$$
+\item Note that a PMF should satisfy the following condition 
+$$\sum_{x\in X(\Omega)} p_X(x) = 1 $$
+
+\item Cumulative distribution function CDF  :
+$$ F_X(x_k) = \pp[X \leq x_k] = \sum_{l=-\infty}^k p_X(l) $$
+
+
+\item What is expectation?\\
+Expectation = Mean = Average computed from a PMF.
+$$ \mathbb{E}[X] = \mu = \sum_{x \in X(\Omega)}xp_X(x) $$
+
+\item Properties:
+$$ \mathbb{E}[g(X)] = \sum_{x \in X(\Omega)}g(X) p_X(x) $$
+
+$$\mathbb{E}[aX+b] =a\mathbb{E}[X]+b $$
+
+\item What is variance?\\
+It is a measure of the deviation of the random variable X relative to its mean.
+\begin{align*}
+\text{Var}[X] = \sigma^2 &= \mathbb{E}[(X- \mu)^2] \\
+&=\mathbb{E}[X^2]  - \mathbb{E}[X]^2\\
+&=\mathbb{E}[X^2]  - \mu^2
+\end{align*}
+\item Properties:
+
+$$\text{Var}[aX+b] =a^2 \text{Var}[X] $$
+\item Coefficient of variance = $\dfrac{\sigma}{\mu}$
+\end{itemize}
+\section{Special Discrete Random Variables}
+\subsection{Bernoulli} (a coin-flip random variable)
+\begin{itemize}
+\item $\pp[\text{sucess}] = p,\; \pp[\text{failure}] = 1-p = q$
+\item PMF :
+$$ p_X(0) = 1-p \qquad p_X(1) = p$$
+\item Expectation:
+$$ \mathbb{E}[X] = p $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] &= p(1-p) \\
+&= pq
+\end{align*}
+\end{itemize}
+\subsection{Bionomial} ($n$ times coin-flips random variable)
+\begin{itemize}
+
+
+\item $\pp[\text{sucess}] = p,\; \pp[\text{failure}] = 1-p = q$
+\item PMF :
+$$ p_X(k) = \Mycomb{k} p^k q^{n-k}$$
+\item Expectation:
+$$ \mathbb{E}[X] = np $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] &= np(1-p) \\
+&= npq
+\end{align*}
+\item Show that the binomial PMF sums to 1.:\\
+Use the binomial theorem:
+\begin{align*}
+\sum_{k=0}^n p_X(k) &= \sum_{k=0}^n \Mycomb{k} p^k q^{n-k}\\ &= (p+(1-p))^n\\ &=1 
+\end{align*}
+
+\end{itemize}
+
+\subsection{Geometric} (Trying a binary experiment until we succeed random variable)
+\begin{itemize}
+
+
+\item $\pp[\text{sucess}] = p,\; \pp[\text{failure}] = 1-p = q$
+\item PMF :
+$$ p_X(k) = \underbrace{(1-p)^{k-1}}_{k-1 \text{failures}}\underbrace{p}_{\text{final success}}$$
+\item Expectation:
+$$ \mathbb{E}[X] = \frac{1}{p} $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] &= \frac{1-p}{p^2} \\
+&= \frac{q}{p^2}
+\end{align*}
+
+\end{itemize}
+
+\subsection{Poisson} (For small p and large n where $\lambda$ = $np$)
+\begin{itemize}
+
+
+\item $\lambda$ = the rate of the arrival
+\item PMF :
+$$ p_X(k) = e^{-\lambda} \frac{\lambda^k}{k!}$$
+\item Expectation:
+$$ \mathbb{E}[X] = \lambda $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] = \lambda 
+\end{align*}
+
+\item Show that the Poisson PMF sums to 1.:\\
+Use the exponential series:
+\begin{align*}
+\sum_{k=0}^\infty p_X(k) &= \sum_{k=0}^\infty e^{-\lambda} \frac{\lambda^k}{k!}\\ &= e^{-\lambda} \underbrace{\sum_{k=0}^\infty \frac{\lambda^k}{k!}}_{=e^{\lambda}}\\ &=1 
+\end{align*}
+
+\end{itemize}
+
+\section{Continuous Random Variables}
+\begin{itemize}
+
+\item  probability density function (PDF) is a continuous version of a PMF, we integrate PDF to compute the probability
+$$ \pp[a\leq X \leq b] = \int_a^b f_X(x) \, dx $$
+
+
+
+\item Note that a PMF should satisfy the following condition 
+$$\int_{\Omega} f_X(x)\, dx = 1 $$
+
+\item Note : 
+$$\pp[X=\text{certian point} ] = 0 $$
+
+\item Cumulative distribution function CDF  :
+$$ F_X(x_k) = \pp[X \leq x] = \int_{-\infty}^x f_X(t) dt $$
+
+\item Note:
+\begin{align*}
+\text{CDF} &= \int \text{PDF}\\
+\text{PDF} &= \frac{d}{dx} \text{PDF}
+\end{align*}
+
+
+\item Expectation (Mean):
+$$ \mathbb{E}[X] = \mu =\int_{\Omega} x\,f_X(x) dx  $$
+
+\item Properties:
+$$ \mathbb{E}[g(X)] = \mu =\int_{\Omega} g(X)\,f_X(x) dx  $$
+
+
+$$\mathbb{E}[aX+b] =a\mathbb{E}[X]+b $$
+
+\item Mode: the peak of the PDF
+
+How to find mode from PDF:\\
+• Find a point c such that $f_x(c)$ is maximized by differentiation (and test the edges of the interval).\\
+How to find mode from CDF:\\
+• Continuous: Find a point $c$ such that $F_X(c)$ has the steepest slope.\\
+• Discrete: Find a point $c$ such that $F_X(c)$ has the biggest gap in a jump.
+
+
+\item Median: (a point c that separates the PDF into two equal areas)
+$$\pp[x<c] = \pp[x>c] = 0.5$$
+$$F_X(c) = 0.5$$
+
+\item Note : Symmetric distribution is a distribution in which Median = Mean
+
+\item Percentiles: \\ 
+To get the $\alpha$ percentile, find the value $c$ at which $$F_X(c) = \alpha$$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] = \sigma^2 &= \mathbb{E}[(X- \mu)^2] \\
+&=\int_{\Omega} (x-\mu)^2f_X(x) dx \\
+&=\mathbb{E}[X^2]  - \mathbb{E}[X]^2\\
+&=\mathbb{E}[X^2]  - \mu^2
+\end{align*}
+\item Properties:
+
+$$\text{Var}[aX+b] =a^2 \text{Var}[X] $$
+
+\end{itemize}
+
+\section{Special Continuous Random Variables}
+\subsection{Uniform} 
+\begin{itemize}
+
+\item PDF :
+$$ f_X(x) =
+\begin{dcases}
+\frac{1}{b-a} & a \leq x \leq b\\
+0 & \text{otherwise}\\
+\end{dcases}
+$$
+
+
+\item Expectation:
+$$ \mathbb{E}[X] = \frac{a+b}{2} $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] = \frac{(a-b)^2}{12}
+\end{align*}
+\end{itemize}
+
+\subsection{Exponential} 
+\begin{itemize}
+
+\item What is the origin of exponential random variables?
+\begin{itemize}
+\item An exponential random variable is the \emph{interarrival} time between two consecutive
+Poisson events.
+
+\end{itemize}
+
+\item PDF :
+$$ f_X(x) =
+\begin{dcases}
+\lambda e ^{-\lambda x} & x \geq 0\\
+0 & \text{otherwise}\\
+\end{dcases}
+$$
+
+
+
+\item CDF :
+$$ F_X(x) =
+\begin{dcases}
+0 & x < 0\\
+1- e^{-\lambda x} & x \geq 0\\
+\end{dcases}
+$$
+
+
+
+\item Expectation:
+$$ \mathbb{E}[X] = \frac{1}{\lambda} $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] = \frac{1}{\lambda^2}
+\end{align*}
+
+\item Memorylessness property:
+\begin{align*}
+\pp[T< t+m | T>t] = \pp[T<m] = F_X(m)
+\end{align*}
+
+\item Starting from poisson distribution, derive an expression of PDF of exponential random variable
+
+\begin{align*}
+&\text{We assume that N is Poisson with a parameter }\lambda t \text{or any duration }t : \\
+&\pp[N=n]=e^{-\lambda t} \frac{(\lambda t) ^n}{n!}\\
+&\text{Let $T$ be the interarrival time between two events}\\
+&\pp[T>t] = \pp[\text{interarrival time}>t] = \pp[\text{no arrival in t}]\\& = \pp[N=0]=e^{-\lambda t} \frac{(\lambda t) ^0}{0!} = e^{- \lambda t}
+\end{align*}
+
+\begin{align*}
+&\text{since} \pp[T>t] = 1 - F_T(t)\\
+&\therefore  F_T(t) = 1 - e^{- \lambda t}\\
+&f_T(t) = \frac{d}{dx} F_T(t) = \lambda e^{- \lambda t}
+\end{align*}
+
+\end{itemize}
+
+
+\subsection{Erlange-k} 
+(A generalization of the exponential distribution is the length until r counts occur in a Poisson process. )
+\begin{itemize}
+
+
+
+\item PDF :
+$$ f_X(x) = \frac{\lambda^k e ^{-\lambda x} x ^{k-1}}{(k-1)!}
+$$
+
+
+
+
+
+
+
+\item Expectation:
+$$ \mathbb{E}[X] = \frac{k}{\lambda} $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] = \frac{k}{\lambda^2}
+\end{align*}
+
+
+\end{itemize}
+
+
+\subsection{Gamma} 
+
+\begin{itemize}
+
+
+
+\item PDF :
+$$ f_X(x) = \frac{1}{\beta^r \Gamma (\alpha)} x^{\alpha - 1} e^{-x/\beta}
+$$
+$\alpha$ : Shape parameter\\
+$\beta$ : Scale parameter\\
+
+
+
+
+
+
+
+\item Expectation:
+$$ \mathbb{E}[X] = \alpha \beta $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] =\alpha \beta^2
+\end{align*}
+
+
+\item Starting from gamma distribution, derive an expression of PDF for erlang-k random variable
+
+\begin{align*}
+&f_X(x) = \frac{1}{\beta^r \Gamma (\alpha)} x^{\alpha - 1} e^{-x/\beta}\\
+&\text{Substitute $\alpha$ = $k$ and $\beta$ = $\frac{1}{\lambda}$ }\\
+ &f_X(x) = \frac{\lambda^k e ^{-\lambda x} x ^{k-1}}{\Gamma(k)}\\
+& \text{ \underline{\textbf{If k is an integer}}, X has an Erlang distribution.}\\
+& f_X(x) = \frac{\lambda^k e ^{-\lambda x} x ^{k-1}}{(k-1)!}
+\end{align*}
+
+\item Exponential distribution is a special case of Gamma distribution with $\alpha = 1$ and $\beta = \dfrac{1}{\lambda}$
+
+\item Chi-Squared distribution $\chi^2$ is a special case of Gamma distribution with $\alpha = v/2$ and $\beta =2$ \\
+it is a important distribution in statistics, also called as number of degrees of freedom
+\end{itemize}
+
+
+
+
+\subsection{Gaussian} 
+\begin{itemize}
+\item We write $$X \sim \mathcal{N}(\mu,\,\sigma^{2})$$
+
+\item PDF :
+$$f_X(x) = \frac{1}{\sigma\sqrt{2\pi}} 
+  \exp\left( -\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^{\!2}\,\right)
+$$
+
+
+\item Expectation:
+$$ \mathbb{E}[X] = \mu $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] = \sigma^2
+\end{align*}
+\end{itemize}
+
+\subsection{Standart Gaussian} 
+\begin{itemize}
+\item We write $$Z \sim \mathcal{N}(0,\,1)$$
+
+\item Conversion from Gaussian to Standard Gaussian 
+$$ Z = \frac{X - \mu}{\sigma}$$ 
+
+\item PDF :
+$$f_Z(z) = \frac{1}{\sqrt{2\pi}} 
+e^{-\dfrac{z^2}{2}}
+$$
+
+\item CDF:
+\begin{align*}
+&\Phi (z) = \pp[Z < z]\\
+&\pp[Z > z] = 1 - \Phi (z)\\
+&\Phi (-z) = 1 - \Phi (z)
+\end{align*}
+
+\item Expectation:
+$$ \mathbb{E}[X] = \mu = 0 $$
+
+\item Variance:
+\begin{align*}
+\text{Var}[X] = \sigma^2 = 1
+\end{align*}
+\end{itemize}
+
+
+\section{Moment generating function}
+
+\begin{itemize}
+\item MGF:
+$$ M_X(t) = \mathbb{E}[e^{tX}] $$
+\item r\textsuperscript{th} moment:
+$$ \mathbb{E}[X^r] = \left. \frac{d^r}{dt^r} M_X(t) \right|_{t=0} $$
+
+\end{itemize}
+
+\section{Joint Discrete Probability Distributions}
+\begin{itemize}
+\item 
+$$ f_{XY}(x,\,y) = \pp[X=x,\,Y=y] $$
+\item Properties :
+$$ \sum_X \sum_Y f_{XY}(x,\,y) = 1 $$
+
+\item Marginal PMF :
+$$ f_X(x) = \sum_Y f_{XY}(x,\,y) $$
+$$ f_Y(x) = \sum_X f_{XY}(x,\,y) $$
+\item Independence : X and Y are independent if
+$$ \underbrace{f_{XY}(x,y) =  f_{X}(x) \times   f_{Y}(y)} _{\text{for all values of x and y}} $$
+
+also if :
+$$ f_{X|Y} = f_X $$
+$$ f_{Y|X} = f_Y $$
+
+\item Conditional probability:
+
+\begin{align*}
+f_{Y|X} = \frac{f_{XY}(x,\,y)}{f_X(x)}\\
+f_{X|Y} = \frac{f_{XY}(x,\,y)}{f_Y(y)}\\
+\end{align*}
+\end{itemize}
+
+
+
+
+\section{Joint Continuous Probability Distributions}
+\begin{itemize}
+\item 
+$$  \pp[\Lambda] = \iint_{\Lambda} f_{XY}\; dx\;dy $$
+$$\text{for any event } \Lambda \subseteq \Omega_X \times  \Omega_Y$$
+\item Properties :
+$$ \iint_A f_{XY}(x,\,y)\; dA = 1 $$
+
+\item Marginal PMF :
+$$ f_X(x) = \int_Y f_{XY}(x,\,y)  \;dy$$
+$$ f_Y(x) = \int_X f_{XY}(x,\,y) \;dx$$
+\item Independence : X and Y are independent if
+$$ {f_{XY}(x,y) =  f_{X}(x) \times   f_{Y}(y)}  $$
+
+also if :
+$$ f_{X|Y} = f_X $$
+$$ f_{Y|X} = f_Y $$
+
+\item Conditional probability:
+
+\begin{align*}
+f_{Y|X} = \frac{f_{XY}(x,\,y)}{f_X(x)}\\
+f_{X|Y} = \frac{f_{XY}(x,\,y)}{f_Y(y)}\\
+\end{align*}
+\end{itemize}
+
+\section{Expectation, Covariance and Correlation Coefficient }
+\begin{itemize}
+
+\item Discrete:
+$$ \mathbb{E}[g(x,\,y)] = \sum_X \sum_Y g(x,\,y) \, f_{XY}(x,\,y) $$
+
+
+\item Continuous:
+$$ \mathbb{E}[g(x,\,y)] = \int_X \int_Y g(x,\,y) \, f_{XY}(x,\,y) dx\, dy $$
+
+\item Properties:
+
+$$ \mathbb{E}[x+y] =  \mathbb{E}[x] + \mathbb{E}[y]$$
+
+\item if $x$ and $y$ are independent:
+
+$$ \mathbb{E}[xy] =  \mathbb{E}[x] \mathbb{E}[y]$$
+
+\item Covariance:
+\begin{align*}
+\text{Cov}(X,\,Y) = \sigma_{XY} &= \mathbb{E}[(X-\mu_X)(Y-\mu_Y)]\\
+&= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+\end{align*}
+
+\item Variance:
+
+\begin{align*}
+\mathbb{V}[X+Y] = \mathbb{V}[X]  + \mathbb{V}[Y] +2 \text{Cov}(X,\,Y)
+\end{align*}
+
+\item if $x$ and $y$ are independent:
+
+$$ \mathbb{V}[X+Y] = \mathbb{V}[X]  + \mathbb{V}[Y] $$
+
+\item Correlation Coefficient:
+
+\begin{align*}
+\rho_{X,Y} = \frac{\text{Cov}(X,\,Y)}{\sigma_{X}\sigma_{Y}}
+\end{align*}
+
+\end{itemize}
+\section{Random Processes}
+
+\begin{itemize}
+\item  Expectation:
+
+$$ \mu_X(t) = \mathbb{E}[X(t,A)] = \sum_A X(t,A)f_A(a) $$
+
+$$ \mu_X(t) = \mathbb{E}[X(t,A)] = \int_A X(t,A)f_A(a)\,dA $$
+
+\item Auto-correlation function :
+
+$$ R_{XX}(t,t+\tau) = \mathbb{E}[X(t)X(t+\tau)] $$
+
+\item Auto-covariance function :
+\begin{align*}
+ \text{Cov}_{XX}(t,t+\tau) &= R_{XX}(t,t+\tau) - \mu_{X}(t) \mu_{X}(t+\tau)\\
+ &=\mathbb{E}[X(t)X(t+\tau)]    -\mathbb{E}[X(t)] \mathbb{E}[X(t+\tau)] 
+\end{align*}
+
+\item Wide Sense Stationary Process WSSP:
+
+$$\text{Expectaion = Constant, Not depend on time}$$
+$$ R_{XX}(t,t+\tau) = \mathbb{E}[X(t)X(t+\tau)]= R_{XX}(\tau)$$
+$$\text{ depend on time difference only}$$
+
+
+
+\item Average power for WSSP:
+$$ R_{XX}(\tau = 0) = \mathbb{E}[X(t)X(t+0)] = \mathbb{E}[X^2(t)]  $$
+
+
+\end{itemize}
+\end{multicols}
+\end{document}
